@@ -1,0 +1,14 @@
+# Node
+**/node_modules/
+**/.vite/
+**/dist/
+
+# Python
+**/__pycache__/
+**/*.pyc
+backend/.venv/
+**/.pytest_cache/
+
+# Env files
+**/.env
+**/.env.*
