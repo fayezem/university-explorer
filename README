@@ -1,0 +1,8 @@
+Frontend start Command:
+    cd frontend
+    npm run dev
+
+Backend start Command:
+    cd backend
+    .venv\Scripts\activate
+    uvicorn app.main:app --reload --port 8000

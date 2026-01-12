@@ -38,6 +38,7 @@ export default function App(){
 
   // State for markers that will be displayed. Start with SAMPLE_MARKERS for immediate UI.
   const [markers, setMarkers] = useState<MarkerType[]>(SAMPLE_MARKERS);
+  const [selected, setSelected] = useState<MarkerType | null>(null);
   const [backendStatus, setBackendStatus] = useState<"loading" | "ok" | "fail">("loading");
 
 
@@ -118,7 +119,7 @@ const createCustomClusterIcon = (cluster: { getChildCount: () => number }) => {
     iconCreateFunction={createCustomClusterIcon}>
 
     {markers.map(marker => (
-      <Marker key={String(marker.id)} position={marker.geocode} icon={customIcon}>
+      <Marker key={String(marker.id)} position={marker.geocode} icon={customIcon} eventHandlers={{click:() => setSelected(marker),}}>
         <Popup>
           <h2>{marker.name ?? `University ${marker.id}`}</h2>
         </Popup>
@@ -128,7 +129,35 @@ const createCustomClusterIcon = (cluster: { getChildCount: () => number }) => {
     </MarkerClusterGroup>
 
     </MapContainer>
-      </div>
+
+    {selected && (
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      right: 0,
+      width: 380,
+      height: "100%",
+      background: "black",
+      zIndex: 9999,
+      padding: 16,
+      overflowY: "auto",
+      boxShadow: "0 0 16px rgba(11, 10, 10, 0.2)",
+    }}
+  >
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <h2 style={{ margin: 0 }}>{selected.name ?? "University"}</h2>
+      <button onClick={() => setSelected(null)}>X</button>
+    </div>
+
+    <hr />
+
+    <p><b>ID:</b> {String(selected.id)}</p>
+    <p><b>Latitude:</b> {selected.geocode[0]}</p>
+    <p><b>Longitude:</b> {selected.geocode[1]}</p>
+  </div>
+)}
+    </div>
   );
 }
 
